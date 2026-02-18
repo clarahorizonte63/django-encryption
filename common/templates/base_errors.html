@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+  {% load i18n %}
+  {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ GLOBAL_APP_NAME }}">
+    <meta name="keywords" content="{{ GLOBAL_APP_NAME }}">
+
+    <title>{{ GLOBAL_APP_NAME }}</title>
+
+    <!-- Styles -->
+    <link href="{% static 'css/page.min.css'%}" rel="stylesheet">
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+  <!-- Icons Css -->
+  <link href="{% static 'botheme/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png'%}">
+    <link rel="icon" href="{% static 'img/favicon.png'%}">
+  </head>
+
+  <body class="layout-centered bg-gray">
+
+
+    <!-- Main Content -->
+    <main class="main-content text-center pb-lg-8">
+      <div class="container">
+        <br><br><br>
+        <a href="/"><img src="{%  static 'img/favicon.png'%}" alt="" height="30" width="96"></a>
+        <br>
+
+          {% block mainBody %}{% endblock %}
+
+        <button class="btn btn-sm btn-lg btn-secondary " type="button" onclick="window.history.back();"><label><i class="fa fa-backward"></i></label> {% trans 'Voltar atrás' %}</button>
+        <a class="btn btn-sm btn-lg btn-primary  " href="/talkwithus"><label><i class="fa fa-envelope"></i></label> {% trans 'Fale connosco' %}</a>
+      <br><br><br>
+
+      </div>
+    </main><!-- /.main-content -->
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/page.min.js'%}"></script>
+    <script src="{% static 'js/script.js'%}"></script>
+
+  <script src="{% static 'botheme/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
+
+  </body>
+</html>

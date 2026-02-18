@@ -1,0 +1,272 @@
+{% extends "backoffice.html" %}
+{% load i18n %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% load utils %}
+
+{% block navbar %}{% endblock %}
+{% block navbarleft %}{% endblock %}
+{% block navbarright %}{% endblock %}
+
+
+{% block style %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css" rel="stylesheet" />
+
+strike {
+  text-decoration: line-through;
+}
+{% endblock %}
+
+{% block header %}
+<!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+
+                <h4 class="mb-sm-0"><small class="text-muted">{% trans 'Configurar' %}</small> / {% trans 'Team Encryption' %} {% if p_id is not None %} / {{ l_content.name }}  {% endif %}</h4>
+
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+
+
+
+
+<div class="row">
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+    <div class="card border {% if p_id is not None %}card-border-warning {% else %} card-border-success{% endif %}">
+
+        <div class="card-body">
+                <form id="form" action={{ request.path }} method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if message %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                    {% for field in form.visible_fields %}
+
+                        {% if form.is_bound %}
+                            {% if field.errors or message %}
+                                <div class="form-group has-error">
+                            {% else %}
+                                <div class="form-group has-success">
+                            {% endif %}
+                        {% else %}
+                            <div class="form-group">
+                        {% endif %}
+
+                    {% if field.field.widget.input_type != 'checkbox' %}
+                        {% if field.field.required %}
+                            <label class="form-label required" for="{{ field.id_for_label }}">{{ field.label }} </label>
+                        {% else %}
+                            {{ field.label_tag }}
+                        {% endif %}
+                    {% endif %}
+
+
+                    {% if field.field.widget.input_type == 'checkbox' %}
+
+                                <!-- Base Switchs -->
+                            <div class="form-check form-switch form-switch-lg">
+
+
+                            {% if field.initial == 'N' %}
+                                {% if field.field.widget.attrs.disabled %}
+                                    <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.id_for_label }}"
+                                           disabled>
+                                {% else %}
+                                    <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.id_for_label }}">
+                                {% endif %}
+                            {% else %}
+
+                                {% if field.field.widget.attrs.disabled %}
+                                    <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.id_for_label }}"
+                                           checked disabled>
+                                {% else %}
+                                    <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.id_for_label }}"
+                                           checked>
+                                {% endif %}
+                            {% endif %}
+
+                        <label  for="{{ field.id_for_label }} {{ field.id_for_label }}" class="form-check-label" >{{ field.label }} </label>
+                        </div>
+
+                    {% endif %}
+
+
+
+                    {% if form.is_bound %}
+
+                        {% if field.errors or message %}
+                            {% if field.field.widget.input_type != 'checkbox' %}
+                                {% render_field field class="form-control is-invalid" %}
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% if field.field.widget.input_type != 'checkbox' %}
+                                {% render_field field class="form-control valid-feedback" %}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if field.field.widget.input_type != 'checkbox' %}
+
+                            {% render_field field class="form-control icon-select" %}
+
+                        {% endif %}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% if form_t.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form_t.visible_fields %}
+                        {% if form_t.is_bound %}
+                            {% if field.errors or message %}
+                                <div class="form-group has-error">
+                            {% else %}
+                                <div class="form-group has-success">
+                            {% endif %}
+                        {% else %}
+                            <div class="form-group">
+                        {% endif %}
+
+                    {% if field.field.required %}
+                        <label class="form-label required" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% else %}
+                        {{ field.label_tag }}
+                    {% endif %}
+                    {% if form_t.is_bound %}
+                        {% if field.errors  or message %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for error in field.errors %}
+                                <div class="form-message validation-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+
+                        {% render_field field class="form-control " %}
+                    {% endif %}
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+
+
+
+                </div> <!-- close card body -->
+
+
+
+                <div class="card-footer">
+                           <a  href="#" onclick="window.history.go(-1); return false;" class="btn btn-soft-success btn-label"><i class="bi bi-arrow-left label-icon align-middle fs-16 me-2"></i> {% trans 'Cancelar' %}</a>
+                    {% if p_id is not None %}
+                           <button type="submit" onclick="$('#cover-spin').show(0)" class="btn btn-success btn-label"><i class="bi bi-check-all label-icon align-middle fs-16 me-2"></i> {% trans 'Guardar alterações' %}</button>
+                           <button id="bootbox-confirm" data-bs-toggle="modal" type="button"  class="btn btn-danger btn-label"><i class="bi bi-x label-icon align-middle fs-16 me-2"></i> {% trans 'Apagar' %}</button>
+                        {% else %}
+                           <button type="submit" onclick="$('#cover-spin').show(0)" class="btn btn-success btn-label"><i class="bi bi-check-all label-icon align-middle fs-16 me-2"></i> {% trans 'Guardar' %}</button>
+                    {% endif %}
+                </div>
+
+            </form>
+
+
+        </div> <!-- close card  -->
+     </div> <!-- close col -->
+</div> <!-- close row -->
+
+
+{# audit if user is admin #}
+{% if request.user.get_is_admin %}
+    {% if l_content is not None %}
+
+        {% include 'backoffice_audit.html' %}
+
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+{% block javascript %} {% endblock %}
+{% block extendjs %}
+
+
+<script>
+    $(function () {
+        $('#bootbox-confirm').on('click', function () {
+            bootbox.confirm({
+                message: '<div class="avatar-title bg-card-custom text-danger display-3 rounded-circle"><i class="bi bi-exclamation-triangle"></i></div><br>Deseja continuar e apagar o Team Encryption?',
+                className: 'bootbox-sm',
+
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = "/teamencryption/delete/{{ p_id }}/"
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+
+    new TomSelect('#id_icon',{
+        render: {
+            option: function(data, escape) {
+                return ('<div><span><i class="bi bi-' + data.value.toLowerCase() + '"></i> ' + data.text + '</span></div>');
+            },
+            item: function(data, escape) {
+                return ('<div><span><i class="bi bi-' + data.value.toLowerCase() + '"></i> ' + data.text + '</span></div>');
+            }
+        }
+    });
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <!-- Circle element with initial animation -->
+            <circle cx="88" cy="80" r="0" fill="#4285F4">
+                <animate attributeName="r" from="0" to="15" dur="0.5s" begin="0s" fill="freeze" />
+                <!-- Removed the wait and made it loop indefinitely -->
+                <animate attributeName="r" values="15;18;15" dur="1.5s" begin="1.3s" repeatCount="indefinite" />
+            </circle>
+
+            <!-- Checkmark element with initial animation -->
+            <path d="M60 100 L90 130 L140 70" stroke="#4285F4" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+                <animate attributeName="stroke-dashoffset" from="200" to="0" dur="0.8s" begin="0.5s" fill="freeze" />
+            </path>
+
+            <!-- Group for the entire logo with animations -->
+            <g>
+                <!-- Resize to 25% - removed the delay -->
+                <animateTransform attributeName="transform" type="scale" from="1" to="0.25" dur="1s" begin="1.3s" fill="freeze" additive="sum" />
+
+                <!-- Slow rotation animation after resizing - made it start immediately after scaling -->
+                <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" begin="2.3s" repeatCount="indefinite" additive="sum" />
+            </g>
+        </svg>

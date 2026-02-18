@@ -1,0 +1,33 @@
+{% load i18n %}
+{% load static %}
+
+
+<p></p>
+<!-- Center Alignment -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if records.has_previous %} {% else %}disabled{% endif %}">
+                <a class="page-link" onclick="$('#cover-spin').show(0)" href="?page={% if records.has_previous %}{{ records.previous_page_number }}{% endif %}{% for key, values in request.GET.lists %}{% if key != 'page' %}{% for value in values %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}" tabindex="-1"
+                   >← &nbsp; {% trans 'Previous' %}</a>
+            </li>
+
+              {% for page_number in records.paginator.page_range %}
+                {% if page_number < 8 %}
+                    <li class="page-item {% if page_number == records.number %}active{% endif %}"><a class="page-link" onclick="$('#cover-spin').show(0)"
+                        href="?page={{ page_number }}{% for key, values in request.GET.lists %}{% if key != 'page' %}{% for value in values %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}">{{ page_number }}</a></li>
+                {% else %}
+                    {% if forloop.last %}
+                    <li class="page-item {% if page_number == records.number %}active{% endif %}"><a class="page-link" onclick="$('#cover-spin').show(0)"
+                        href="?page={{ page_number }}{% for key, values in request.GET.lists %}{% if key != 'page' %}{% for value in values %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}">...</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+
+            {% if records.has_next %}
+            <li class="page-item">
+                <a class="page-link" onclick="$('#cover-spin').show(0)" href="?page={{ records.next_page_number }}{% for key, values in request.GET.lists %}{% if key != 'page' %}{% for value in values %}&{{ key }}={{ value }}{% endfor %}{% endif %}{% endfor %}">{% trans 'Next' %} &nbsp; →</a>
+            </li>
+             {% endif %}
+        </ul>
+    </nav>
