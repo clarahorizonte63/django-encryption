@@ -1,0 +1,189 @@
+{% extends "backoffice.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load utils %}
+
+
+{% block navbar %}{% endblock %}
+{% block navbarleft %}{% endblock %}
+{% block navbarright %}{% endblock %}
+
+{% block header %}
+<!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0"><small class="text-muted">{% trans 'Configurar' %}</small> / {% trans 'Shift Encryption' %}  <span class="badge badge-pill bg-warning">{% trans 'Preview'%}</span></h4>
+                <div class="page-title-right ">
+                    <!-- Stacks - Horizontal -->
+                    <div class="hstack gap-3">
+
+                        {% if request.user.get_is_management %}
+                         <a href="/shiftencryption/add" class="btn btn-sm btn-success btn-label"><i class="bi bi-plus label-icon align-middle fs-16 me-2"></i> {% trans 'Adicionar Shift' %}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <form id="db-test-form" class="row g-3 align-items-end">
+
+
+            <div class="col-auto">
+                <label class="form-label">Runs</label>
+                <input type="number" id="runs" value="30" class="form-control">
+            </div>
+
+            <div class="col-auto">
+                <label class="form-label">Records per query</label>
+                <input type="number" id="limit" value="100" class="form-control">
+            </div>
+
+            <div class="col-auto">
+                <label class="form-label">Select Field</label>
+                <select id="field" name="field" class="form-select">
+                    <option value="">-- Table --</option>
+                    {% for field in model_fields %}
+                        <option value="{{ field }}">{{ field }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-sm btn-success" type="submit">
+                    Run DB Tests
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div id="results" class="mt-4"></div>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}
+
+{% block extendjs %}
+
+
+
+<script type="text/javascript">
+
+
+    function orderMe(field, order) {
+            console.log('field -> ' + field);
+            console.log('order -> ' + order);
+            if ( $('#order_field').val() == field && $('#order_type').val() == order) {
+                // change order type
+                $('#order_type').val('DESC');
+            }
+            else {
+                $('#order_field').val(field);
+                $('#order_type').val(order);
+            }
+            $('#btn_submit').trigger( "click" );
+        }
+
+</script>
+
+
+
+<script>
+document.getElementById("db-test-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const runs = document.getElementById("runs").value;
+    const limit = document.getElementById("limit").value;
+
+    fetch("{% url 'test_shift_encryption' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+            runs: runs,
+            limit: limit,
+            field: field.value,
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.selected_field) {
+            headersHtml = `<th>${data.selected_field}</th>`;
+
+            rowsHtml = data.records.map(row => `
+                <tr>
+                    <td>${row[data.selected_field] ?? ""}</td>
+                </tr>
+            `).join("");
+        } else {
+            headersHtml = `
+                <th>{% trans 'Cod'%}</th>
+                <th>{% trans 'Desc'%}</th>
+                <th>{% trans 'Start_at'%}</th>
+                <th>{% trans 'End_at'%}</th>
+                <th>{% trans 'Absence'%}</th>
+                <th >{% trans 'Entitity_Related_Id'%}</th>
+                <th >{% trans 'Created On'%}</th>
+                <th >{% trans 'Created By'%}</th>
+                <th >{% trans 'Updated On'%}</th>
+                <th >{% trans 'Updated By'%}</th>
+            `;
+
+            rowsHtml = data.records.map(row => `
+                <tr>
+                    <td>${row.cod ?? ""}</td>
+                    <td>${row.desc ?? ""}</td>
+                    <td>${row.start_at ?? ""}</td>
+                    <td>${row.end_at ?? ""}</td>
+                    <td>${row.is_absence ?? ""}</td>
+                    <td>${row.entity_related_id ?? ""}</td>
+                    <td>${row.created_on ?? ""}</td>
+                    <td>${row.created_by ?? ""}</td>
+                    <td>${row.updated_on ?? ""}</td>
+                    <td>${row.updated_by ?? ""}</td>
+                </tr>
+            `).join("");
+        }
+
+        let html = `
+            <h3>Stats</h3>
+            <ul>
+                <li>Runs: ${data.runs}</li>
+                <li>Min: ${data.min} ms</li>
+                <li>Max: ${data.max} ms</li>
+                <li>Avg: ${data.avg} ms</li>
+            </ul>
+
+            <h4 class="mb-4">Records</h4>
+
+            <div class="table-responsive table-card">
+                <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%" id="standard">
+                    <thead>
+                        <tr>${headersHtml}</tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml}
+                    </tbody>
+                </table>
+            </div>
+        `;
+        document.getElementById("results").innerHTML = html;
+    });
+});
+</script>
+
+{% endblock %}
+

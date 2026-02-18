@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  {% load i18n %}
+  {% load static %}
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="language" content="en-US"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+	<meta name="mobile-web-app-capable" content="yes">
+
+
+
+  <title>{{ GLOBAL_APP_NAME }} / {{ GLOBAL_APP_TAG_LINE }}</title>
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+  <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+<!--  <link href="{% static 'css/all.css' %}" rel="stylesheet" type="text/css">-->
+
+  <!-- Core stylesheets -->
+  <link href="{% static 'backoffice/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'backoffice/css/pixeladmin.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'backoffice/css/widgets.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'backoffice/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Theme -->
+  <link href="{% static 'backoffice/css/themes/silver.min.css' %}" rel="stylesheet" type="text/css">
+
+  <link href="{% static 'backoffice/js/jstree/style.min.css' %}" rel="stylesheet">
+
+  <!-- Pace.js -->
+  <script src="{% static 'backoffice/pace/pace.min.js' %}"></script>
+<link href="{% static 'backoffice/pace/theme.css' %}" rel="stylesheet" type="text/css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43350171-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-43350171-3');
+</script>
+
+
+      <style type="text/css" id="wp-custom-css">
+			#content-desktop {display: block;}
+            #content-mobile {display: none;}
+
+            @media screen and (max-width: 767px) {
+
+            #content-desktop {display: none;}
+            #content-mobile {display: block;}
+
+            }
+		</style>
+      <style>
+        @page {
+            size: A3;
+            margin: 0.3cm;
+        }
+
+        #datatables {
+          border-collapse: collapse;
+        }
+
+        #datatables td, #datatables th {
+          border: 1px solid #ddd;
+          padding: 2px;
+          width:100px;
+        }
+
+        #datatables thead th, #datatables thead td {
+          text-align: left;
+          background-color: #55afc9;
+          color: white;
+          border-color: #469fb8;
+        }
+
+    </style>
+    <style>
+
+        #datatables-contracts {
+          border-collapse: collapse;
+          padding: 2px;
+        }
+
+        #datatables-contracts td, #datatables-contracts th {
+          border: 1px solid #ddd;
+          padding: 2px;
+        }
+
+        #datatables-contracts thead th {
+          text-align: left;
+          background-color: #55afc9;
+          color: white;
+          border-color: #469fb8;
+          padding: 5px;
+        }
+
+        .table-caption {
+            text-align: left;
+            background-color: #469fb8;
+            color: white;
+            font-size: 15px;
+            padding: 5px;
+        }
+
+        .bg-white darker {
+            background-color: #f0f0f0;
+        }
+
+        .bg-warning {
+            background-color: #f4ab43;
+            color: white;
+        }
+
+    </style>
+
+   {% block styles %}{% endblock %}
+</head>
+<body>
+
+
+  <!-- Content -->
+  <div class="px-content" id="px-content">
+
+  {% block header %}{% endblock %}
+  <!-- $MESSAGES =================================================================== -->
+    {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dark">
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  <!--<strong>{{ message.tags }}</strong> -->
+                  {{ message }}
+                </div>
+            {% endfor %}
+    {% endif %}
+      {% block content %}{% endblock %}
+
+  </div>
+
+  <!-- Footer -->
+
+  <footer class="px-footer px-footer-bottom p-t-0">
+    <br>
+    {% block footer %}{% endblock %}
+<br>
+    <hr class="page-wide-block">
+
+  </footer>
+
+  <!-- ==============================================================================
+  |
+  |  SCRIPTS
+  |
+  =============================================================================== -->
+
+  <!-- Load jQuery -->
+  <script src="{% static 'backoffice/js/jquery.min.js' %}"></script>
+
+  <!-- Core scripts -->
+  <script src="{% static 'backoffice/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'backoffice/js/pixeladmin.min.js' %}"></script>
+
+  <!-- Your scripts -->
+  <script src="{% static 'backoffice/js/app.js' %}"></script>
+
+
+  {% block extendjs %}{% endblock %}
+</body>
+</html>
+
+
+
+

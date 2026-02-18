@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="{{LANGUAGE_CODE}}" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" >
+<head>
+  <meta charset="utf-8">
+  {% load i18n %}
+  {% load static %}
+
+
+  <meta name="language" content="{{LANGUAGE_CODE}}"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>{{ GLOBAL_APP_NAME }} / {{ GLOBAL_APP_TAG_LINE }}</title>
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+  {% with "img/"|add:GLOBAL_APP_FAVICON as icon_path %}
+  <link rel="icon" href="{% static icon_path %}">
+  <link rel="shortcut icon" href="{% static icon_path %}">
+    {% endwith %}
+
+  <!-- Layout config Js -->
+  <script src="{% static 'botheme/js/layout.js' %}"></script>
+  <!-- Bootstrap Css -->
+  <link href="{% static 'botheme/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Icons Css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" integrity="sha512-/k658G6UsCvbkGRB3vPXpsPHgWeduJwiWGPCGS14IQw3xpr63AEMdA8nMYG2gmYkXitQxDTn6iiK/2fD4T87qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- App Css-->
+  <link href="{% static 'botheme/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="{% static 'botheme/libs/flatpickr/flatpickr.min.css' %}">
+
+  <link href="{% static 'botheme/libs/tom-select/css/tom-select.bootstrap5.min.css' %}" rel="stylesheet">
+
+
+  <!-- custom Css-->
+  <link href="{% static 'botheme/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'botheme/libs/toastify-js/toastify.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <script src="{% static 'botheme/libs/ckeditor/all.js' %}"></script>
+
+    <link href="{% static 'botheme/libs/nouislider/nouislider.min.css' %}"  rel="stylesheet" type="text/css" />
+
+<!-- Custom CSS -->
+<style>
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+}
+
+.modal-dialog-right {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    margin: 0;
+    width: 350px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog-right {
+    transform: translateX(0);
+}
+
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.chat-messages {
+    height: 350px;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 80%;
+}
+
+.message-sent {
+    margin-left: auto;
+}
+
+.message-received {
+    margin-right: auto;
+}
+
+.message-content {
+    padding: 10px;
+    border-radius: 15px;
+    background-color: #f8f9fa;
+}
+
+.message-sent .message-content {
+    background-color: #007bff;
+    color: white;
+}
+
+.message-info {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 5px;
+}
+</style>
+{% block styles %}
+{% endblock %}
+</head>
+<body>
+  <!-- Begin page -->
+  <div id="layout-wrapper">
+
+    <div class="top-tagbar">
+        <div class="w-100">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-3 col-9">
+                    <div class="text-white-50 fs-13">
+                        <i class="bi bi-clock align-middle me-2"></i> <span id="live-clock"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+
+                        {% with "img/"|add:GLOBAL_APP_LOGO_SM as icon_path_sm %}
+                        {% with "img/"|add:GLOBAL_APP_LOGO_DARK as icon_path_dark %}
+
+
+
+
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="{% if request.user.related_entity_profile != 'COWORKER' %}/portal{% else %}/timesheet/coworker{% endif %}" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="{% static icon_path_sm %}" alt="{{ GLOBAL_APP_NAME }}" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="{% static icon_path_dark %}" alt="{{ GLOBAL_APP_NAME }}" height="25">
+                                </span>
+                            </a>
+
+
+
+
+                            <a href="{% if request.user.related_entity_profile != 'COWORKER' %}/portal{% else %}/timesheet/coworker{% endif %}" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="{% static icon_path_sm %}" alt="{{ GLOBAL_APP_NAME }}" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="{% static icon_path_dark %}" alt="{{ GLOBAL_APP_NAME }}" height="25">
+                                </span>
+                            </a>
+                        </div>
+
+                        {% endwith %}
+                        {% endwith %}
+
+                        <button type="button" class="btn btn-sm btn-sm px-3 fs-16 header-item vertical-menu-btn btn-sm topnav-hamburger" id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+
+
+
+                        {% block navbarleft %}
+                        {% endblock %}
+
+
+                         <div class="ms-1 header-item d-none d-sm-flex">
+                            <a href="/" data-bs-toggle="tooltip" data-placement="right" title="" class="btn btn-sm btn-icon btn-topbar btn-ghost-dark rounded-circle" >
+                                <i class='bi bi-house-heart fs-18'></i>
+                            </a>
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-sm btn-icon btn-topbar btn-ghost-dark rounded-circle" data-bs-toggle="fullscreen" title="{% trans 'Ativar modo ecra completo' %}"  data-bs-toggle="tooltip" data-placement="right">
+                                <i class='bi bi-arrows-fullscreen fs-16'></i>
+                            </button>
+                        </div>
+
+                        <div class="dropdown topbar-head-dropdown ms-1 header-item">
+                            <button type="button" class="btn btn-sm btn-icon btn-topbar btn-ghost-dark rounded-circle mode-layout" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{% trans 'Mudar tema da aplicação' %}"  data-bs-toggle="tooltip" data-placement="right">
+                                <i class="bi bi-sun align-middle fs-18"></i>
+                            </button>
+                            <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
+                                <a href="#!" onclick="sessionStorage.setItem('data-layout-mode', 'light'); sessionStorage.setItem('data-layout-auto', 'false');" class="dropdown-item" data-mode="light"><i class="bi bi-sun align-middle me-2"></i> {% trans 'Light theme' %}</a>
+                                <a href="#!" onclick="sessionStorage.setItem('data-layout-mode', 'dark'); sessionStorage.setItem('data-layout-auto', 'false');" class="dropdown-item" data-mode="dark"><i class="bi bi-moon align-middle me-2"></i> {% trans 'Dark theme' %}</a>
+                                <a href="#!" onclick="sessionStorage.setItem('data-layout-mode', getTheme()); sessionStorage.setItem('data-layout-auto', 'true');" class="dropdown-item" data-mode="auto"><i class="bi bi-moon-stars align-middle me-2"></i> {% trans 'Auto' %}</a>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    <!-- ========== App Menu ========== -->
+    <div class="app-menu navbar-menu">
+        <!-- LOGO -->
+          {% with "img/"|add:GLOBAL_APP_LOGO_SM as icon_path_sm %}
+              {% with "img/"|add:GLOBAL_APP_LOGO_DARK as icon_path_dark %}
+                <div class="navbar-brand-box">
+                    <a href="/portal" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="{% static icon_path_sm %}" alt="{{ GLOBAL_APP_NAME }}" height="26">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{% static icon_path_dark %}" alt="{{ GLOBAL_APP_NAME }}" height="26">
+                        </span>
+                    </a>
+                    <a href="/portal" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="{% static icon_path_sm %}" alt="{{ GLOBAL_APP_NAME }}" height="26">
+                        </span>
+                        <span class="logo-lg">
+                            <img src="{% static icon_path_dark %}" alt="{{ GLOBAL_APP_NAME }}" height="26">
+                        </span>
+                    </a>
+                    <button type="button" class="btn btn-sm btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                        <i class="ri-record-circle-line"></i>
+                    </button>
+                </div>
+                {% endwith %}
+          {% endwith %}
+
+        <div id="scrollbar">
+            <div class="container-fluid">
+
+                <div id="two-column-menu">
+                </div>
+                <ul class="navbar-nav" id="navbar-nav">
+
+                    {% block navbar1 %}{% endblock %}
+                    {% include 'backoffice_navbar.html' %}
+
+
+                </ul>
+            </div>
+            <!-- Sidebar -->
+        </div>
+
+        <div class="sidebar-background"></div>
+    </div>
+    <!-- Left Sidebar End -->
+
+  <!-- Vertical Overlay-->
+  <div class="vertical-overlay"></div>
+  <!-- ============================================================== -->
+  <!-- Content -->
+  <!-- ============================================================== -->
+<div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+					{% block header %}{% endblock %}
+
+					  <!-- $MESSAGES =================================================================== -->
+					  {% with request.resolver_match.url_name as url %}
+						{% if url not in 'portal_communication, portal_communication_sent, portal_communication_add, portal_communication_edit, portal_communication_view, portal_timesheet_communication' %}
+						  {% if messages %}
+
+							{% for message in messages %}
+									<!-- {{ message.tags }} Alert -->
+									<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+										{{ message }}
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans 'Fechar' %}"></button>
+									</div>
+
+							{% endfor %}
+						  {% endif %}
+						{% endif %}
+					  {% endwith %}
+
+
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="h-100">
+
+                                    {% block content %}{% endblock %}
+
+
+										{% if user.get_help == 'Y' %}
+										<div class="row">
+											<div class="col-md-12">
+												<div class="card bg-soft-info card-height-100">
+													<div class="card-body">
+														   {% block footer %}
+														   {% endblock %}
+													</div>
+												</div>
+											</div>
+										</div>
+										{% endif %}
+
+
+
+                                </div> <!-- end .h-100-->
+
+                            </div> <!-- end col -->
+
+                        </div>
+
+                    </div>
+                    <!-- container-fluid -->
+
+
+
+                </div>
+                <!-- End Page-content -->
+  <!-- End Page-content -->
+
+
+
+    </div>
+    <!-- end main content-->
+
+
+
+  </div>
+  <!-- END layout-wrapper -->
+ <!-- chat button 
+<button type="button" class="btn btn-primary rounded-circle chat-button" data-bs-toggle="modal" data-bs-target="#chatModal">
+    <i class="bi bi-chat-dots"></i>
+</button>
+  -->
+  <!--start back-to-top-->
+  <button onclick="topFunction()" class="btn btn-sm btn-danger btn-icon" id="back-to-top">
+      <i class="ri-arrow-up-line"></i>
+  </button>
+  <!--end back-to-top-->
+
+  <!--preloader -->
+  <div id="cover-spin"></div>
+
+
+  <!-- Chat Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-right">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatModalLabel">Boil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="chat-messages" id="chatMessages">
+                    {% for message in messages %}
+                    <div class="message {% if message.sender == request.user %}message-sent{% else %}message-received{% endif %}">
+                        <div class="message-content">{{ message.search }}</div>
+                        <div class="message-info">
+                            <small>{{ message.created_by }} - {{ message.created_on|date:"Y-m-d H:i" }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form id="chatForm" class="chat-form mt-3">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="messageInput" placeholder="Type your message...">
+                        <button class="btn btn-primary" type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+  <!-- =================================================================================================================
+  |  SCRIPTS
+  ================================================================================================================== -->
+
+  <!-- JAVASCRIPT -->
+  <!-- Load jQuery -->
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+
+  <script src="{% static 'botheme/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'botheme/libs/simplebar/simplebar.min.js' %}"></script>
+  <script src="{% static 'botheme/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
+
+   <script src="{% static 'botheme/libs/tom-select/js/tom-select.complete.min.js' %}"></script>
+    <script src="{% static 'botheme/libs/tom-select/js/plugins/remove_button.js' %}"></script>
+
+    <script src="{% static 'botheme/libs/flatpickr/flatpickr.min.js' %}"></script>
+
+
+  <script src="{% static 'botheme/js/bootbox/bootbox.min.js' %}"></script>
+
+   <!-- MiniColors -->
+  <script src="{% static 'botheme/js/minicolors/jquery.minicolors.js' %}"></script>
+
+  <script src="{% static 'botheme/libs/nouislider/nouislider.min.js' %}"></script>
+  <script src="{% static 'botheme/libs/wnumb/wNumb.min.js' %}"></script>
+
+
+
+  <script src="{% static 'botheme/libs/choices.js/public/assets/scripts/choices.min.js' %}"></script>
+
+  <!-- App js -->
+  <script src="{% static 'botheme/js/app.js' %}"></script>
+
+
+
+  <script type="text/javascript">
+
+
+    $(function() {
+        startTimeBackoffice();
+    });
+
+    function convertTZ(date, tzString) {
+        return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
+    }
+
+    function startTimeBackoffice() {
+
+    const month = ["{% trans 'Jan' %}","{% trans 'Fev' %}","{% trans 'Mar' %}","{% trans 'Abr' %}","{% trans 'Mai' %}","{% trans 'Jun' %}","{% trans 'Jul' %}","{% trans 'Ago' %}","{% trans 'Set' %}","{% trans 'Out' %}","{% trans 'Nov' %}","{% trans 'Dez' %}"];
+
+
+
+        var today = new Date();
+
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        var utcDay = today.getUTCDate();
+        var utcYear = today.getFullYear();
+        let utcMonth = month[today.getUTCMonth()];
+
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('live-clock').innerHTML =
+           utcDay +" {% trans 'de' %} "+ utcMonth + " {% trans 'de' %} " + utcYear + " <b>" + h + ":" + m + ":" + s + "</b>";
+        document.getElementById('live-clock-footer').innerHTML =
+            "<b>" + utcYear + "</b>";
+        var t = setTimeout(startTimeBackoffice, 500);
+    }
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+    }
+
+         $('#form').on('submit', function () {
+            $('#cover-spin').show(0);
+        });
+
+
+
+  </script>
+<!-- Custom JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const sendButton = chatForm.querySelector('button[type="submit"]');
+
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        // Disable form while sending
+        messageInput.disabled = true;
+        sendButton.disabled = true;
+        sendButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+
+
+        const formData = new FormData(chatForm);
+        formData.append('message', message);
+
+        fetch('s', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                data.messages.forEach(message => {
+                    const messageElement = createMessageElement(message);
+                    chatMessages.appendChild(messageElement);
+                });
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                messageInput.value = '';
+                // Re-enable form
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                sendButton.innerHTML = 'Send';
+                messageInput.focus();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Re-enable form on error
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            sendButton.innerHTML = 'Send';
+            messageInput.focus();
+        });
+    });
+
+
+    function createMessageElement(message) {
+        const div = document.createElement('div');
+        div.className = `message message-${message.type}`;
+        div.innerHTML = `
+            <div class="message-content">${message.search}</div>
+            <div class="message-info">
+                <small>${message.created_by} - ${message.created_on}</small>
+            </div>
+        `;
+        return div;
+    }
+
+    // Auto-scroll to bottom when opening modal
+    const chatModal = document.getElementById('chatModal');
+    chatModal.addEventListener('shown.bs.modal', function() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+});
+</script>
+{% block extendjs %}
+{% endblock %}
+</body>
+</html>
+
+
+
+

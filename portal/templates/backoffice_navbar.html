@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load static %}
+
+{# SIDEBAR #}
+{% with request.resolver_match.url_name as url %}
+<li class="nav-item {% if url == 'portal_index' %}active{% endif %}">
+    <a href="/portal" class="nav-link menu-link {% if url == 'portal_index'  %}active{% endif %}"><i class="bi bi-app"></i> <span>{% trans 'Home'%} </span></a>
+</li>
+<li class="nav-item">
+    <a href="/coworkerencryption" class="nav-link menu-link"><i class="bi bi-person-circle"></i> <span>{% trans 'Coworker' %}</span> </a>
+</li>
+<li class="nav-item">
+    <a href="/shiftencryption" class="nav-link menu-link"><i class="bi bi-calendar-range"></i> <span>{% trans 'Shift' %}</span> </a>
+</li>
+<li class="nav-item">
+    <a href="/teamencryption" class="nav-link menu-link"><i class="bi bi-people-fill"></i> <span>{% trans 'Team' %}</span> </a>
+</li>
+
+
+{% endwith %}

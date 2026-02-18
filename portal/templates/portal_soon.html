@@ -1,0 +1,77 @@
+{% extends "backoffice.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+
+
+{% block navbar %}{% endblock %}
+{% block navbarleft %}{% endblock %}
+{% block navbarright %}{% endblock %}
+
+
+
+{% block header %}
+<!-- start page title
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">{% trans 'Soon...' %}</h4>
+
+
+                <div class="page-title-right ">
+
+                    <div class="hstack gap-3">
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+     end page title -->
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+
+<!-- Primary Alert -->
+<div class="alert alert-primary alert-dismissible alert-additional fade show" role="alert">
+<div class="alert-body">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="d-flex">
+        <div class="flex-shrink-0 me-3">
+            <i class="bi bi-info-circle fs-16 align-middle"></i>
+        </div>
+        <div class="flex-grow-1">
+            <h5 class="alert-heading">{% trans 'Feature under development' %}</h5>
+            <p class="mb-0">{% trans 'The page that you are tyring to access is under development and should be available soon' %}</p>
+        </div>
+    </div>
+</div>
+<div class="alert-content">
+    <p class="mb-0">{% trans 'If you think that this is an error or urgent to have this, please raise a request.' %}
+
+</div>
+</div>
+
+    </div> <!-- end col -->
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block extendjs %}
+
+
+{% endblock %}
+
