@@ -1,0 +1,20 @@
+{% extends "base_errors.html" %}
+{% load static %}
+{% load i18n %}
+{% block mainBody %}
+<h1 class="display-1 text-muted mb-7">{% trans 'Sem acesso' %}</h1>
+<!-- $MESSAGES =================================================================== -->
+        {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        <b>{{ message }}</b>
+                    </div>
+                {% endfor %}
+        {% endif %}
+    <lord-icon src="https://cdn.lordicon.com/hrqwmuhr.json" trigger="loop" colors="primary:#ff0000,secondary:#aaaaaa" style="width:128px;height:128px"></lord-icon>
+<p> </p>
+<br><br>
+        <p class="lead">{% trans 'Não tem acesso à página, turno, colaborador ou escala que procura.' %}</p>
+
+{% endblock %}
+

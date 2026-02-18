@@ -1,0 +1,57 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Token Handler</title>
+    <script type="text/javascript">
+        window.onload = function() {
+            // Extract the entire hash fragment
+            var hash = window.location.hash.substring(1);
+            console.log(hash);
+
+            // Convert fragment to a query string format
+            var query = '?' + hash.replace(/&/g, '&');
+            console.log(query);
+
+            // Redirect to your Django view with the query parameters
+            //window.location.href = '/accounts/process-token/' + query;
+        };
+    </script>
+</head>
+<body>
+    Redirecting...
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Token Handler</title>
+
+</head>
+<body>
+ <p id="loading">Loading</p>
+ <p id="id_token">id_token</p>
+
+ <script>
+        // Function to get a specific query parameter by name from the URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&#]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Extracting the id_token
+        const idToken = getParameterByName('id_token');
+        console.log(idToken);
+
+         window.location.href = '/accounts/process-token/?id_token=' + idToken;
+    </script>
+</body>
+</html>
+
