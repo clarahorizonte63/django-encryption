@@ -1,0 +1,113 @@
+.strike {
+      text-decoration: line-through;
+      font-style: italic;
+      color: green;
+}
+
+#cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+    display:none;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;top:40%;
+    width:40px;height:40px;
+    border-style:solid;
+    border-color:#438eff;
+    border-top-color:transparent;
+    border-width: 2px;
+    border-radius:50%;
+
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
+}
+
+.scrollable {
+    overflow: auto;
+}
+
+.rotated-header-th {
+    height: 100px;
+
+    text-align: center;
+    line-height: 1;
+    background-color: rgb(218, 232, 232) !important;
+
+}
+
+.rotated-header-container {
+    width: 35px;
+}
+
+.rotated-header-content {
+
+    text-align:center;
+
+    white-space:nowrap;
+    transform-origin:50% 50%;
+    transform: translateX(17px) rotate(-90deg);
+}
+
+.rotated-header td:not(:first-child) {
+    text-align: center;
+    vertical-align:middle;
+}
+
+.rotated-header-final {
+  transform: rotate(-90deg);
+  text-align: left;
+  vertical-align:middle;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.rotate {
+    -moz-transform: rotate(-90.0deg);  /* FF3.5+ */
+    -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
+    -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
+    filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+}
+/* EOS */
+#div_table {
+    overflow: auto;
+    height: 800px;
+}
+
+thead {
+    position: sticky;
+    z-index: 2;
+    /*background-color: rgb(218, 232, 232) !important;*/
+}
+
+
+.collapsed-column {
+    position: sticky;
+    z-index: 1;
+    left:0;
+    background: #F9F9F9;
+    border: 1px solid rgba(0,0,0,.05);
+}
+
+.collapsed-column-head {
+    position: sticky;
+    z-index: 2;
+    left:0;
+}

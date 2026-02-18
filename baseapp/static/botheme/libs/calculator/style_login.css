@@ -1,0 +1,23 @@
+
+
+.calculator-screen {
+  width: 100%;
+  height: 80px;
+
+  text-align: center;
+
+  font-size: 3rem;
+}
+
+.equal-sign {
+  height: 98%;
+  background-color: #cccccc;
+  grid-area: 2 / 4 / 6 / 5;
+}
+
+.calculator-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  padding: 20px;
+}}

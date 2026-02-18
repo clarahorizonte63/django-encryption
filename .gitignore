@@ -1,0 +1,14 @@
+.idea
+/.idea
+C:\app\customer\solverde\data-deck\.idea
+C:/app/customer/solverde/data-deck/.idea
+*.pyc
+*.pyo
+__pycache__/
+__pycache__
+*.py[cod]
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+baseapp/settings.py
