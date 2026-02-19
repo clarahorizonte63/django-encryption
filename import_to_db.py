@@ -187,5 +187,5 @@ if __name__ == "__main__":
     entity = Entity.objects.filter(name="valuedate.io").first()
 
     #import_customers_encription(entity, 10000)
-    import_shift_encryption(entity, 10)
+    #import_shift_encryption(entity, 10000)
     #import_team_encryption(entity, 10000)

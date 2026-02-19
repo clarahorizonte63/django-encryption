@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <!-- Circle element with initial animation -->
+            <circle cx="88" cy="80" r="0" fill="#4285F4">
+
+            </circle>
+
+            <!-- Checkmark element with initial animation -->
+            <path d="M60 100 L90 130 L140 70" stroke="#4285F4" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+
+            </path>
+
+
+        </svg>

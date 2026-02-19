@@ -7,9 +7,7 @@ from portal import view_encryption as EncryptionViews
 
 urlpatterns = [
     # start pages
-    re_path(r'^$', PortalViews.index, name='index'),
-    # Portal Views
-    re_path(r'^portal$', PortalViews.index, name='index'),
+    re_path(r'^$', EncryptionViews.portal_coworker_encryption, name='portal_coworker_encryption'),
 
 
     re_path(r'^coworkerencryption$', EncryptionViews.portal_coworker_encryption, name='portal_coworker_encryption'),

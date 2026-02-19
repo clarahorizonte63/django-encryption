@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Circle element with further reduced size -->
+  <circle cx="88" cy="60" r="12" fill="#C13030">
+    <animate attributeName="r" from="0" to="12" dur="1s" begin="0s" fill="freeze" />
+  </circle>
+  <!-- Inverted Checkmark element with smoother red (unchanged position) -->
+  <path d="M140 150 L90 90 L60 120" stroke="#C13030" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="200" stroke-dashoffset="0">
+    <animate attributeName="stroke-dashoffset" from="200" to="0" dur="1s" begin="0s" fill="freeze" />
+  </path>
+</svg>
